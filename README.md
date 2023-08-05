@@ -18,6 +18,6 @@ a powerful web automation library, to navigate the website and extract informati
 6. The script will automatically open the Microsoft Edge browser, navigate to the specified URL, and start scraping AI tool data.
 7. Once the scraping is complete, the extracted data will be saved to a CSV file named `ai_tools.csv` by default. You can specify a different output file name by modifying the `output_file_name` variable in the `main` function.
 
-## Insiration
+## Inspiration
 this work was inspired by a [Reddit Post](https://www.reddit.com/r/webscraping/comments/15emy4p/web_scrape/?onetap_auto=true) <br>
 ![inspiration img](https://github.com/ilyesBoukraa/ai_tools_scraper/blob/master/imgs/reddit_inspiration.png)
