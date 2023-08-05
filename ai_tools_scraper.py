@@ -12,6 +12,13 @@ import psutil
 # https://www.reddit.com/r/webscraping/comments/15emy4p/web_scrape/?onetap_auto=true
 
 def get_ram_usage():
+    """
+    Retrieves the system's RAM usage information.
+
+    Returns:
+        tuple: A tuple containing RAM usage percentage and RAM usage in MB.
+    """
+
     # Get system's virtual memory information
     virtual_memory = psutil.virtual_memory()
 
@@ -25,6 +32,15 @@ def get_ram_usage():
 
 
 def open_browser(url):
+    """
+    Opens a browser window with specified options and navigates to the given URL.
+
+    Parameters:
+        url (str): The URL to be opened in the browser.
+
+    Returns:
+        webdriver.Edge: The Selenium webdriver instance representing the opened browser.
+    """
     edge_options = Options()
     #edge_options.use_chromium = True 
     edge_options.add_argument("start-maximized")
@@ -39,6 +55,15 @@ def open_browser(url):
     return driver 
     
 def get_tool_url(driver):
+    """
+    Retrieves the URLs of AI tools from the provided page.
+
+    Parameters:
+        driver (webdriver.Edge): The Selenium webdriver instance.
+
+    Returns:
+        list: A list containing the URLs of AI tools.
+    """
     tools_list = driver.find_elements(By.XPATH, '//div[@class="col-xl-4 col-lg-4 col-md-6 tool_box"]' ) 
     print('tools_list', len(tools_list))
     tools_urls = []
@@ -66,6 +91,23 @@ def get_tool_url(driver):
     return tools_urls 
 
 def get_data(driver , urls):
+    """
+    Retrieves data from each AI tool URL.
+
+    Parameters:
+        driver (webdriver.Edge): The Selenium webdriver instance.
+        urls (list): A list of URLs representing AI tool pages.
+
+    Returns:
+        tuple: Six lists containing the extracted data for each tool:
+            - tools_names (list): The names of the AI tools.
+            - urls (list): The URLs of the AI tools.
+            - what_is_s (list): Descriptions of what each AI tool does.
+            - pricings (list): Pricing information for each AI tool.
+            - tags (list): Tags associated with each AI tool.
+            - use_cases_s (list): Use cases for each AI tool.
+    """
+      
     tools_names = []
     tools_urls = []
     what_is_s = []
@@ -120,6 +162,22 @@ def get_data(driver , urls):
 
 
 def save_data(tools_names, urls, what_is_s, pricings, tags, use_cases_s, output_file_name='output.csv'):
+    """
+    Saves the extracted AI tool data to a CSV file.
+
+    Parameters:
+        tools_names (list): The names of the AI tools.
+        urls (list): The URLs of the AI tools.
+        what_is_s (list): Descriptions of what each AI tool does.
+        pricings (list): Pricing information for each AI tool.
+        tags (list): Tags associated with each AI tool.
+        use_cases_s (list): Use cases for each AI tool.
+        output_file_name (str, optional): The name of the output CSV file. Default is 'output.csv'.
+
+    Returns:
+        None
+    """
+
     df = pd.DataFrame( {'tools_names':tools_names,
                          'urls':urls,
                          'what_is': what_is_s,
@@ -149,6 +207,17 @@ def save_data(tools_names, urls, what_is_s, pricings, tags, use_cases_s, output_
 
 
 def main(url, output_file_name, elements_number=50):
+    """
+    Main function to initiate web scraping and save AI tool data to a CSV file.
+
+    Parameters:
+        url (str): The URL of the web page to scrape AI tool URLs.
+        output_file_name (str): The name of the output CSV file to save the data.
+        elements_number (int, optional): The number of elements (AI tools) to scrape. Default is 50.
+
+    Returns:
+        None
+    """
     driver = open_browser(url)
     time.sleep(5)
     for _ in range( math.ceil(elements_number/18) ):    
